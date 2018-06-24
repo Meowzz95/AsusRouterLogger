@@ -1,0 +1,8 @@
+ROUTER_IP="HTTP://192.168.2.1"
+
+SYSTEM_MAC_PLATFORM="Darwin"
+SYSTEM_PI_PLATFORM="Linux"
+
+# Element ID
+LOGIN_USERNAME_ID="login_username"
+LOGIN_PWD_NAME="login_passwd"
