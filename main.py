@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.remote.webdriver import WebDriver
 from time import sleep
+
+from DeviceListLogger import DeviceListLogger
 from constants import *
 from credentials import *
 import platform
@@ -19,6 +21,7 @@ def get_system():
 
 def login_driver(driver:WebDriver):
     driver.get(ROUTER_IP)
+    sleep(1)
     usernameEle=driver.find_element_by_id(LOGIN_USERNAME_ID)
     usernameEle.send_keys(USERNAME)
     pwdEle=driver.find_element_by_name(LOGIN_PWD_NAME)
@@ -40,4 +43,6 @@ if __name__ == '__main__':
         raise Exception("Unsupported system")
 
     login_driver(driver)
+    deviceListLogger=DeviceListLogger(driver)
+    deviceListLogger.run()
 
