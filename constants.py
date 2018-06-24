@@ -2,7 +2,7 @@ SYSTEM_MAC_PLATFORM="Darwin"
 SYSTEM_PI_PLATFORM="Linux"
 
 # URLS
-ROUTER_IP="HTTP://192.168.2.1/"
+ROUTER_IP="http://router.asus.com/"
 INDEX_PAGE=ROUTER_IP+"index.asp"
 ADAPTIVE_QOS_PAGE=ROUTER_IP+"AdaptiveQoS_Bandwidth_Monitor.asp"
 

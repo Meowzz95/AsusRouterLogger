@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.remote.webdriver import WebDriver
 from time import sleep
 
+from BandwidthLogger import BandwidthLogger
 from DeviceListLogger import DeviceListLogger
 from constants import *
 from credentials import *
@@ -29,8 +30,6 @@ def login_driver(driver:WebDriver):
     driver.execute_script("login();")
 
 
-
-
 if __name__ == '__main__':
     # ONLY ONE DRIVER
     # since the asus router admin page only allows one user to be logged in
@@ -44,5 +43,7 @@ if __name__ == '__main__':
 
     login_driver(driver)
     deviceListLogger=DeviceListLogger(driver)
+    bandwidthLogger=BandwidthLogger(driver)
     deviceListLogger.run()
+    bandwidthLogger.run()
 
