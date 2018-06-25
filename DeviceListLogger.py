@@ -20,12 +20,15 @@ class DeviceListLogger(BaseLogger):
 
     def gather_info(self):
         super().gather_info()
+        print("garthing info, device list")
         self.driver.execute_script("pop_clientlist_listview(true)")
         #wait list to load
         sleep(2)
+        self.driver.implicitly_wait(5)
         clientListDivEle=self.driver.find_element_by_id(CLIENT_LIST_DIV_ID)
         trs=clientListDivEle.find_elements_by_tag_name("tr")
         for tr in trs:
+            print("processing"+tr.text)
             tds=tr.find_elements_by_tag_name("td")
             ipField=tds[3].text  #type:str
             ipFieldStrs=ipField.split("\n")
