@@ -21,6 +21,7 @@ class DeviceListLogger(BaseLogger):
 
     def gather_info(self):
         super().gather_info()
+        print("garthing info, device list")
         self.driver.execute_script("pop_clientlist_listview(true)")
         #wait list to load
         sleep(2)
