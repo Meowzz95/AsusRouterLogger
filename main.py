@@ -15,9 +15,13 @@ def get_mac_driver():
 
 # used on PI, actual run
 def get_pi_driver():
-    option=webdriver.ChromeOptions()
+    from pyvirtualdisplay import Display
+    display = Display(visible=0, size=(1024, 768))
+    display.start()
+
+    option = webdriver.FirefoxOptions()
     option.add_argument("headless")
-    driver=webdriver.Chrome(executable_path="./chromedriver_arm",options=option)
+    driver=webdriver.Firefox(options=option)
     return driver
 
 def get_system():
