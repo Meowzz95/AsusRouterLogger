@@ -22,6 +22,7 @@ class BandwidthLogger(BaseLogger):
         # seems difficult to extract info by elements
         # okay so we process string...
         trafficListStrList=trafficListDivEle.text.split("\n")
+        print(trafficListStrList)
         # one device has 5 strings
         # 0 -> device name
         # 1 -> upload rate

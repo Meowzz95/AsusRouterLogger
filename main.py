@@ -42,8 +42,11 @@ if __name__ == '__main__':
         raise Exception("Unsupported system")
 
     login_driver(driver)
-    deviceListLogger=DeviceListLogger(driver)
-    bandwidthLogger=BandwidthLogger(driver)
-    deviceListLogger.run()
-    bandwidthLogger.run()
+
+    while True:
+        deviceListLogger=DeviceListLogger(driver)
+        bandwidthLogger=BandwidthLogger(driver)
+        deviceListLogger.run()
+        bandwidthLogger.run()
+        sleep(2)
 

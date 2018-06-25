@@ -2,7 +2,9 @@ from time import sleep
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from constants import *
+from credentials import *
 from BaseLogger import BaseLogger
+import requests
 
 
 class DeviceListLogger(BaseLogger):
@@ -42,6 +44,11 @@ class DeviceListLogger(BaseLogger):
 
     def upload(self):
         super().upload()
+        resp=requests.post(SERVER_DEVICE_LIST_API,json=self.deviceList)
+        print(resp.status_code)
+
+
+
 
 
 
