@@ -18,10 +18,10 @@ def get_pi_driver():
     from pyvirtualdisplay import Display
     display = Display(visible=0, size=(1024, 768))
     display.start()
-
+    print("getting pi driver")
     option = webdriver.FirefoxOptions()
-    option.add_argument("headless")
-    driver=webdriver.Firefox(options=option)
+    #option.add_argument("headless")
+    driver=webdriver.Firefox(executable_path="./geckodriver",options=option)
     return driver
 
 def get_system():
