@@ -46,7 +46,16 @@ if __name__ == '__main__':
     while True:
         deviceListLogger=DeviceListLogger(driver)
         bandwidthLogger=BandwidthLogger(driver)
-        deviceListLogger.run()
-        bandwidthLogger.run()
+        try:
+            deviceListLogger.run()
+        except Exception as ex:
+            print("Error in device list logger:")
+            print(ex)
+
+        try:
+            bandwidthLogger.run()
+        except Exception as ex:
+            print("Error in bandwidth logger:")
+            print(ex)
         sleep(2)
 
