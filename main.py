@@ -15,7 +15,10 @@ def get_mac_driver():
 
 # used on PI, actual run
 def get_pi_driver():
-    pass
+    option=webdriver.ChromeOptions()
+    option.add_argument("headless")
+    driver=webdriver.Chrome(executable_path="./chromedriver_arm",options=option)
+    return driver
 
 def get_system():
     return platform.system()
