@@ -26,7 +26,7 @@ class DeviceListLogger(BaseLogger):
         #wait list to load
         sleep(2)
         clientListDivEle=self.driver.find_element_by_id(CLIENT_LIST_DIV_ID)
-        print(clientListDivEle.get_attribute("outerHTML"))
+        #print(clientListDivEle.get_attribute("outerHTML"))
         bsClientListDivEle=BeautifulSoup(clientListDivEle.get_attribute("outerHTML"),"html.parser")
         bsTrs=bsClientListDivEle.findAll("tr")
         for bsTr in bsTrs:
@@ -66,7 +66,7 @@ class DeviceListLogger(BaseLogger):
     def upload(self):
         super().upload()
         resp=requests.post(SERVER_DEVICE_LIST_API,json=self.deviceList)
-        print(resp.status_code)
+        print("[RESULT][DEVICELIST]"+str(resp.status_code))
 
 
 

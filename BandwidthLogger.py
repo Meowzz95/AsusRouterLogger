@@ -2,7 +2,10 @@ from time import sleep
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from constants import *
+from credentials import *
 from BaseLogger import BaseLogger
+import requests
+
 
 
 class BandwidthLogger(BaseLogger):
@@ -22,7 +25,7 @@ class BandwidthLogger(BaseLogger):
         # seems difficult to extract info by elements
         # okay so we process string...
         trafficListStrList=trafficListDivEle.text.split("\n")
-        print(trafficListStrList)
+        #print(trafficListStrList)
         # one device has 5 strings
         # 0 -> device name
         # 1 -> upload rate
@@ -48,3 +51,5 @@ class BandwidthLogger(BaseLogger):
 
     def upload(self):
         super().upload()
+        res=requests.post(SERVER_BANDWIDTH_API,json=self.deviceTrafficList)
+        print("[RESULT][BANDWIDTH]" + str(res.status_code))
