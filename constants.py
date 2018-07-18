@@ -11,3 +11,11 @@ LOGIN_USERNAME_ID="login_username"
 LOGIN_PWD_NAME="login_passwd"
 
 CLIENT_LIST_DIV_ID="clientlist_all_list_Block"
+
+
+# States
+STATE_OFFLINE=0
+STATE_ONLINE=1
+
+#OFFLIE_THRESHOLD_SEC=180
+OFFLIE_THRESHOLD_SEC=60

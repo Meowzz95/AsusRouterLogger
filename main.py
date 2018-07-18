@@ -59,10 +59,10 @@ if __name__ == '__main__':
             print("Error in device list logger:")
             print(ex)
 
-        try:
-            bandwidthLogger.run()
-        except Exception as ex:
-            print("Error in bandwidth logger:")
-            print(ex)
+        # try:
+        #     bandwidthLogger.run()
+        # except Exception as ex:
+        #     print("Error in bandwidth logger:")
+        #     print(ex)
         sleep(2)
 

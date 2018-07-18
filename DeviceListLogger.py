@@ -1,3 +1,4 @@
+import datetime
 from time import sleep
 
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -6,6 +7,8 @@ from credentials import *
 from BaseLogger import BaseLogger
 import requests
 from bs4 import BeautifulSoup
+from dbHelper import createOrUpdateDevice,setDeviceState,getAllDevices
+from mailHelper import send_email
 
 
 class DeviceListLogger(BaseLogger):
@@ -13,6 +16,8 @@ class DeviceListLogger(BaseLogger):
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.deviceList = []
+        self.textToBeSent=""
+
 
     def go_required_page(self):
         super().go_required_page()
@@ -44,24 +49,52 @@ class DeviceListLogger(BaseLogger):
                 "accessTime": bsTds[8].getText()
             }
             self.deviceList.append(device)
-
-        # trs=clientListDivEle.find_elements_by_tag_name("tr")
-        # for tr in trs:
-        #     tds=tr.find_elements_by_tag_name("td")
-        #     ipField=tds[3].text  #type:str
-        #     ipFieldStrs=ipField.split("\n")
-        #     ipStr=ipFieldStrs[0]
-        #     ipType=ipFieldStrs[1]
-        #
-        #     device= {
-        #         "name": tds[2].text,
-        #         "ip": ipStr,
-        #         "ipType":ipType,
-        #         "mac": tds[4].text,
-        #         "accessTime": tds[8].text
-        #     }
-        #     self.deviceList.append(device)
+        self.processSmartHome()
         print(self.deviceList)
+
+    def processSmartHome(self):
+        self.textToBeSent=""
+        self.updateDb()
+        deviceDbObjList=getAllDevices()
+        for deviceDbObj in deviceDbObjList:
+            self.processState(deviceDbObj)
+        if self.textToBeSent:
+            print("SENDING EMAIL")
+            send_email(NOTIFY_EMAIL,"FROM MIMIMI'S SMART HOME",self.textToBeSent)
+        pass
+
+    def processState(self,deviceDbObj):
+        nowDt=datetime.datetime.now()
+        print("processState  device name = {}".format(deviceDbObj.name))
+        if deviceDbObj.state == STATE_ONLINE:
+            diff=nowDt - deviceDbObj.lastSeen
+            print("current online dev check diff = {}".format(diff.seconds))
+            if diff.seconds > OFFLIE_THRESHOLD_SEC:
+                # this device goes offline
+                self.handleOffline(deviceDbObj)
+        elif deviceDbObj.state == STATE_OFFLINE:
+            diff=nowDt-deviceDbObj.lastSeen
+            print("current offline dev check diff = {}".format(diff.seconds))
+            if diff.seconds < OFFLIE_THRESHOLD_SEC:
+                #this device goes online
+                self.handleOnline(deviceDbObj)
+
+    def handleOffline(self,deviceDbObj):
+        print(deviceDbObj.name,"goes offline")
+        setDeviceState(deviceDbObj.mac,STATE_OFFLINE)
+        self.textToBeSent+="\n{} goes OFFLINE".format(deviceDbObj.name)
+        pass
+    def handleOnline(self,deviceDbObj):
+        print(deviceDbObj.name,"goes online")
+        setDeviceState(deviceDbObj.mac, STATE_ONLINE)
+        self.textToBeSent += "\n{} goes ONLINE".format(deviceDbObj.name)
+        pass
+
+    def updateDb(self):
+        for deviceObj in self.deviceList:
+            createOrUpdateDevice(deviceObj["mac"], deviceObj["name"])
+
+
 
     def upload(self):
         super().upload()
